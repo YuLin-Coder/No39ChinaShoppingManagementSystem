@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjg.service.mapper.GoodsMapper"> 
+
+	<select id="findOneGoods" parameterType="com.yjg.api.model.Goods" resultType="com.yjg.api.model.Goods">
+		select
+			g.goodsId as goodsId,
+			g.typeDid as typeDid,
+			g.goodsName as goodsName,
+			g.goodsPrice as goodsPrice,
+			g.goodsPriceZ as goodsPriceZ,
+			g.goodsFrom as goodsFrom,
+			g.goodsDesc as goodsDesc,
+			g.goodsNum as goodsNum,
+			g.goodsUrl as goodsUrl,
+			g.goodsUrl2 as goodsUrl2,
+			g.goodsUrl3 as goodsUrl3,
+			g.goodsUrl4 as goodsUrl4,
+			g.createDate as createDate,
+			g.createId as createId,
+			g.modeDate as modeDate,
+			g.modeId as modeId,
+			g.ifZK as ifZK
+		from
+			goods g
+		where
+			g.goodsId=#{goodsId}
+	</select>
+	
+	<insert id="inserGoods" useGeneratedKeys="true" keyProperty="goodsId" parameterType="com.yjg.api.model.Goods">
+		insert into 
+			goods(typeDid,goodsName,goodsPrice,goodsPriceZ,goodsFrom,goodsDesc,goodsNum,goodsUrl,goodsUrl2,goodsUrl3,goodsUrl4,createDate,createId,modeDate,modeId,ifZK)
+		 	values(#{typeDid},#{goodsName},#{goodsPrice},#{goodsPriceZ},#{goodsFrom},#{goodsDesc},#{goodsNum},#{goodsUrl},#{goodsUrl2},#{goodsUrl3},#{goodsUrl4},#{createDate},#{createId},#{modeDate},#{modeId},#{ifZK})
+	</insert>
+	<delete id="removeGoods" parameterType="com.yjg.api.model.Goods">
+		 delete from goods where goodsId=#{goodsId} 
+	</delete>
+	<update id="updateGoods" parameterType="com.yjg.api.model.Goods">
+		 update goods g 
+        <set>
+  			<if test="typeDid!=null"> g.typeDid=#{typeDid},</if>
+  			<if test="goodsName!=null"> g.goodsName=#{goodsName},</if>
+  			<if test="goodsPrice!=null"> g.goodsPrice=#{goodsPrice},</if>
+  			<if test="goodsPriceZ!=null"> g.goodsPriceZ=#{goodsPriceZ},</if>
+  			<if test="goodsFrom!=null"> g.goodsFrom=#{goodsFrom},</if>
+  			<if test="goodsDesc!=null"> g.goodsDesc=#{goodsDesc},</if>
+  			<if test="goodsNum!=null"> g.goodsNum=#{goodsNum},</if>
+  			<if test="goodsUrl!=null"> g.goodsUrl=#{goodsUrl},</if>
+  			<if test="goodsUrl2!=null"> g.goodsUrl2=#{goodsUrl2},</if>
+  			<if test="goodsUrl3!=null"> g.goodsUrl3=#{goodsUrl3},</if>
+  			<if test="goodsUrl4!=null"> g.goodsUrl4=#{goodsUrl4},</if>
+  			<if test="modeDate!=null"> g.modeDate=#{modeDate},</if>
+  			<if test="modeId!=null"> g.modeId=#{modeId},</if>
+  			<if test="ifZK!=null"> g.ifZK=#{ifZK},</if>
+  		</set>
+  			where g.goodsId=#{goodsId} 
+	</update>
+	<select id="findAllGoods" parameterType="com.yjg.api.model.Goods" resultType="com.yjg.api.model.Goods">
+		select
+			g.goodsId as goodsId,
+			g.typeDid as typeDid,
+			g.goodsName as goodsName,
+			g.goodsPrice as goodsPrice,
+			g.goodsPriceZ as goodsPriceZ,
+			g.goodsFrom as goodsFrom,
+			g.goodsDesc as goodsDesc,
+			g.goodsNum as goodsNum,
+			g.goodsUrl as goodsUrl,
+			g.goodsUrl2 as goodsUrl2,
+			g.goodsUrl3 as goodsUrl3,
+			g.goodsUrl4 as goodsUrl4,
+			g.createDate as createDate,
+			g.createId as createId,
+			g.modeDate as modeDate,
+			g.modeId as modeId,
+			g.ifZK as ifZK
+		from
+			goods g 
+		<where>
+			<if test="typeDid!=null">and g.typeDid=#{typeDid}</if>
+			<if test="goodsFrom!=null">and g.goodsFrom=#{goodsFrom}</if>
+			<if test="ifZK!=null">and g.ifZK =#{ifZK}</if>
+		</where>	
+			order by  g.createDate  DESC
+	</select>
+	<select id="selectGoodsList" parameterType="map" resultType="com.yjg.api.model.Goods">
+		select
+			g.goodsId as goodsId,
+			g.typeDid as typeDid,
+			g.goodsName as goodsName,
+			g.goodsPrice as goodsPrice,
+			g.goodsPriceZ as goodsPriceZ,
+			g.goodsFrom as goodsFrom,
+			g.goodsDesc as goodsDesc,
+			g.goodsNum as goodsNum,
+			g.goodsUrl as goodsUrl,
+			g.goodsUrl2 as goodsUrl2,
+			g.goodsUrl3 as goodsUrl3,
+			g.goodsUrl4 as goodsUrl4,
+			g.createDate as createDate,
+			g.createId as createId,
+			g.modeDate as modeDate,
+			g.modeId as modeId,
+			g.ifZK as ifZK
+		from
+			goods g ,chinaTyped d
+  	   	where
+  	   		g.typeDid=d.typeDid
+  			 <if test="typeDid!=null">and g.typeDid=#{typeDid}</if>
+  			 <if test="name!=null">and (g.goodsName like '%${name}%' or g.goodsFrom like '%${name}%' or d.name like '%${name}%')</if>	 
+  			order by createDate desc
+  		limit
+  			#{startPage},#{pageSize}
+	</select>
+	<select id="selectGoodsListcount" parameterType="map" resultType="int">
+		select
+			count(*)
+		from
+			goods g ,chinaTyped d
+  	   	where
+  	   		g.typeDid=d.typeDid
+  			 <if test="typeDid!=null">and g.typeDid=#{typeDid}</if>
+			  <if test="name!=null">and (g.goodsName like '%${name}%' or g.goodsFrom like '%${name}%' or d.name like '%${name}%')</if>	 	 
+	</select>
+</mapper>

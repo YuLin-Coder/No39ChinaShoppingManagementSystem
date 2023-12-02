@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjg.service.mapper.SellerMapper"> 
+
+	<select id="findOneSeller" parameterType="com.yjg.api.model.Seller" resultType="com.yjg.api.model.Seller">
+		select 
+			s.sellerId as sellerId,
+			s.userId as userId,
+			s.tUserName as tUserName,
+			s.tPhoneNum as tPhoneNum,
+			s.tIdCard as tIdCard,
+			s.tEmail as tEmail,
+			s.tIdCardUrl1 as tIdCardUrl1,
+			s.tIdCardUrl2 as tIdCardUrl2,
+			s.tStatus as tStatus,
+			s.createDate as createDate,
+			s.modeDate as modeDate
+		from
+			seller s
+		<where>
+			<if test="sellerId!=null">s.sellerId=#{sellerId}</if>
+			<if test="userId!=null">s.userId=#{userId}</if>
+		</where>
+	</select>
+	
+	<insert id="insertSeller" useGeneratedKeys="true" keyProperty="sellerId" parameterType="com.yjg.api.model.Seller">
+		insert into 
+			seller(userId,tUserName,tPhoneNum,tIdCard,tEmail,tIdCardUrl1,tIdCardUrl2,tStatus,createDate,modeDate)
+		 	values(#{userId},#{tUserName},#{tPhoneNum},#{tIdCard},#{tEmail},#{tIdCardUrl1},#{tIdCardUrl2},#{tStatus},#{createDate},#{modeDate})
+	</insert>
+	<delete id="removeSeller" parameterType="com.yjg.api.model.Seller">
+		 delete from seller where sellerId=#{sellerId} 
+	</delete>
+	<update id="upDateSeller" parameterType="com.yjg.api.model.Seller">
+		 update seller s 
+        <set>
+  			<if test="tStatus!=null"> s.tStatus=#{tStatus},</if>
+  			<if test="modeDate!=null"> s.modeDate=#{modeDate},</if>
+  		</set>
+  			where s.sellerId=#{sellerId} 
+	</update>
+	<select id="findAllSeller" parameterType="com.yjg.api.model.Seller" resultType="com.yjg.api.model.Seller">
+		select 
+			s.sellerId as sellerId,
+			s.userId as userId,
+			s.tUserName as tUserName,
+			s.tPhoneNum as tPhoneNum,
+			s.tIdCard as tIdCard,
+			s.tEmail as tEmail,
+			s.tIdCardUrl1 as tIdCardUrl1,
+			s.tIdCardUrl2 as tIdCardUrl2,
+			s.tStatus as tStatus,
+			s.createDate as createDate,
+			s.modeDate as modeDate
+		from
+			seller s
+	</select>
+	<select id="selectSellerList" parameterType="map" resultType="com.yjg.api.model.Seller">
+		select 
+			s.sellerId as sellerId,
+			s.userId as userId,
+			s.tUserName as tUserName,
+			s.tPhoneNum as tPhoneNum,
+			s.tIdCard as tIdCard,
+			s.tEmail as tEmail,
+			s.tIdCardUrl1 as tIdCardUrl1,
+			s.tIdCardUrl2 as tIdCardUrl2,
+			s.tStatus as tStatus,
+			s.createDate as createDate,
+			s.modeDate as modeDate
+		from
+			seller s
+  		limit
+  			#{startPage},#{pageSize}
+	</select>
+	<select id="selectSellerListcount" parameterType="map" resultType="int">
+		select
+			count(*)
+		from
+			user u	 
+	</select>
+</mapper>

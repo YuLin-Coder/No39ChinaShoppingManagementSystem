@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjg.service.mapper.CollectMapper"> 
+	<resultMap type="com.yjg.api.model.Collect" id="resultMap1">	
+	  <id column="collectId1" property="collectId" /> 
+	  <result column="userId1" property="userId" /> 
+	  <result column="goodsId1" property="goodsId" /> 
+	  <result column="createDate1" property="createDate" /> 
+	  <result column="modeDate1" property="modeDate" /> 
+	  <association property="goods" resultMap="resultMap2" /> 
+	</resultMap>
+	<resultMap type="com.yjg.api.model.Goods" id="resultMap2">	
+	  <id column="goodsId" property="goodsId" /> 
+	  <result column="typeDid" property="typeDid" /> 
+	  <result column="goodsName" property="goodsName" /> 
+	  <result column="goodsPrice" property="goodsPrice" /> 
+	  <result column="goodsPriceZ" property="goodsPriceZ" /> 
+	  <result column="goodsFrom" property="goodsFrom" />
+	  <result column="goodsDesc" property="goodsDesc" />  
+	  <result column="goodsNum" property="goodsNum" /> 
+	  <result column="goodsUrl" property="goodsUrl" /> 
+	  <result column="goodsUrl2" property="goodsUrl2" /> 
+	  <result column="goodsUrl3" property="goodsUrl3" /> 
+	  <result column="goodsUrl4" property="goodsUrl4" />
+	  <result column="createDate" property="createDate" /> 
+	  <result column="createId" property="createId" /> 
+	  <result column="modeDate" property="modeDate" /> 
+	  <result column="modeId" property="modeId" /> 
+	  <result column="ifZK" property="ifZK" /> 
+	</resultMap>
+
+	<insert id="inserCollect" useGeneratedKeys="true" keyProperty="collectId" parameterType="com.yjg.api.model.Collect">
+		insert into 
+			collect(userId,goodsId,createDate,modeDate)
+		 	values(#{userId},#{goodsId},#{createDate},#{modeDate})
+	</insert>
+	<delete id="removeCollect" parameterType="com.yjg.api.model.Collect">
+		 delete from collect where collectId=#{collectId} 
+	</delete>
+	<select id="findAllCollect" parameterType="com.yjg.api.model.Collect" resultMap="resultMap1">
+			select
+			c.collectId as collectId1,
+			c.userId as userId1,
+			c.createDate as createDate1,
+			c.modeDate as modeDate1,
+			c.goodsId as goodsId1,
+			g.goodsId as goodsId,
+			g.typeDid as typeDid,
+			g.goodsName as goodsName,
+			g.goodsPrice as goodsPrice,
+			g.goodsPriceZ as goodsPriceZ,
+			g.goodsFrom as goodsFrom,
+			g.goodsDesc as goodsDesc,
+			g.goodsNum as goodsNum,
+			g.goodsUrl as goodsUrl,
+			g.goodsUrl2 as goodsUrl2,
+			g.goodsUrl3 as goodsUrl3,
+			g.goodsUrl4 as goodsUrl4,
+			g.createDate as createDate,
+			g.createId as createId,
+			g.modeDate as modeDate,
+			g.modeId as modeId,
+			g.ifZK as ifZK
+		from
+			collect c,goods g
+		where
+			c.goodsId=g.goodsId and c.userId=#{userId}
+			<if test="goodsId!=null">and c.goodsId=#{goodsId}</if>
+	</select>
+</mapper>

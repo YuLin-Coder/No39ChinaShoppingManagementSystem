@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjg.service.mapper.ChinaTypeDMapper"> 
+	<resultMap type="com.yjg.api.model.ChinaTypeD" id="resultMap1">
+	  <id column="typeDid" property="typeDid" />
+	  <result column="typeId" property="typeId" />   
+	  <result column="name" property="name" />
+	  <result column="createDate" property="createDate" /> 
+	  <result column="createId" property="createId" /> 
+	  <result column="createPer" property="createPer" /> 
+	  <result column="modeDate" property="modeDate" /> 
+	  <result column="modeId" property="modeId" /> 
+	  <result column="modePer" property="modePer" /> 
+	</resultMap>
+	<select id="selectOneChinaTypeD" parameterType="com.yjg.api.model.ChinaTypeD" resultMap="resultMap1">
+		select 
+			c.typeDid as typeDid,
+			c.typeId as typeId,
+			c.name as name,
+			c.createDate as createDate,
+			c.createId as createId,
+			c.createPer as createPer,
+			c.modeDate as modeDate,
+			c.modeId as modeId,
+			c.modePer as modePer
+		from
+			chinaTypeD c
+		where
+			c.typeDid=#{typeDid}
+	</select>
+	
+	<insert id="inserChinaTypeD" useGeneratedKeys="true" keyProperty="typeDid" parameterType="com.yjg.api.model.ChinaTypeD">
+		insert into 
+			chinaTypeD(typeId,name,createDate,createId,createPer,modeDate,modeId,modePer)
+		 	values(#{typeId},#{name},#{createDate},#{createId},#{createPer},#{modeDate},#{modeId},#{modePer})
+	</insert>
+	<delete id="removeChinaTypeD" parameterType="int">
+		 delete from chinaTypeD where typeId=#{typeId} 
+	</delete>
+	<delete id="removeChinaTypeD2" parameterType="com.yjg.api.model.ChinaTypeD">
+		 delete from chinaTypeD where typeDid=#{typeDid} 
+	</delete>
+	<update id="updateChinaTypeD" parameterType="com.yjg.api.model.ChinaTypeD">
+		 update chinaTyped c 
+        <set>
+  			<if test="typeId!=null"> c.typeId=#{typeId},</if>
+  			<if test="name!=null"> c.name=#{name},</if>
+  			<if test="modeDate!=null"> c.modeDate=#{modeDate},</if>
+  			<if test="modeId!=null"> c.modeId=#{modeId},</if>
+  			<if test="modePer!=null"> c.modePer=#{modePer},</if>
+  		</set>
+  			where c.typeDid=#{typeDid} 
+	</update>
+	<select id="findAllChinaTypeD" parameterType="com.yjg.api.model.ChinaTypeD" resultMap="resultMap1">
+		select 
+			c.typeDid as typeDid,
+			c.typeId as typeId,
+			c.name as name,
+			c.createDate as createDate,
+			c.createId as createId,
+			c.createPer as createPer,
+			c.modeDate as modeDate,
+			c.modeId as modeId,
+			c.modePer as modePer
+		from
+			chinaTypeD c
+	</select>
+	<select id="selectChinaTypeDByName" parameterType="com.yjg.api.model.ChinaTypeD" resultMap="resultMap1">
+		select 
+			c.typeDid as typeDid,
+			c.typeId as typeId,
+			c.name as name,
+			c.createDate as createDate,
+			c.createId as createId,
+			c.createPer as createPer,
+			c.modeDate as modeDate,
+			c.modeId as modeId,
+			c.modePer as modePer
+		from
+			chinaTypeD c
+		where
+			c.name=#{name}
+	</select>
+</mapper>

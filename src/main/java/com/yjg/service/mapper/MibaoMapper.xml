@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjg.service.mapper.MibaoMapper"> 
+
+	<select id="findOneMibao" parameterType="com.yjg.api.model.Mibao" resultType="com.yjg.api.model.Mibao">
+		select 
+			m.id as id,
+			m.userId as userId,
+			m.uquestion as uquestion,
+			m.uanswer as uanswer
+		from
+			mibao m
+		where
+			m.userId=#{userId}
+	</select>
+	
+	<insert id="inserMibao" useGeneratedKeys="true" keyProperty="id" parameterType="com.yjg.api.model.Mibao">
+		insert into 
+			mibao(userId,uquestion,uanswer)
+		 	values(#{userId},#{uquestion},#{uanswer})
+	</insert>
+
+</mapper>

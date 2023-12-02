@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjg.service.mapper.MessageMapper"> 
+
+	<select id="findOneMessage" parameterType="com.yjg.api.model.Message" resultType="com.yjg.api.model.Message">
+		select 
+			m.messageId as messageId,
+			m.mName as mName,
+			m.mEmail as mEmail,
+			m.mPhone as mPhone,
+			m.mDetail as mDetail,
+			m.createDate as createDate,
+			m.handleDate as handleDate,
+			m.handleName as handleName,
+			m.handleId as handleId,
+			m.mStatus as mStatus
+		from
+			message m
+		where
+			m.messageId=#{messageId}
+	</select>
+	
+	<insert id="inserMessage" useGeneratedKeys="true" keyProperty="messageId" parameterType="com.yjg.api.model.Message">
+		insert into 
+			message(mName,mEmail,mPhone,mDetail,createDate,handleDate,handleName,handleId,mStatus)
+		 	values(#{mName},#{mEmail},#{mPhone},#{mDetail},#{createDate},#{handleDate},#{handleName},#{handleId},#{mStatus})
+	</insert>
+	<update id="updateMessage" parameterType="com.yjg.api.model.Message">
+		 update message m 
+        <set>
+  			<if test="mName!=null"> m.mName=#{mName},</if>
+  			<if test="mEmail!=null"> m.mEmail=#{mEmail},</if>
+  			<if test="mPhone!=null"> m.mPhone=#{mPhone},</if>
+  			<if test="mDetail!=null"> m.mDetail=#{mDetail},</if>
+  			<if test="handleName!=null"> m.handleName=#{handleName},</if>
+  			<if test="handleId!=null"> m.handleId=#{handleId},</if>
+  			<if test="mStatus!=null"> m.mStatus=#{mStatus},</if>
+  			<if test="handleDate!=null"> m.handleDate=#{handleDate},</if>
+  		</set>
+  			where m.messageId=#{messageId} 
+	</update>
+	<select id="findAllMessage" parameterType="com.yjg.api.model.Message" resultType="com.yjg.api.model.Message">
+		select 
+			m.messageId as messageId,
+			m.mName as mName,
+			m.mEmail as mEmail,
+			m.mPhone as mPhone,
+			m.mDetail as mDetail,
+			m.createDate as createDate,
+			m.handleDate as handleDate,
+			m.handleName as handleName,
+			m.handleId as handleId,
+			m.mStatus as mStatus
+		from
+			message m	
+	</select>
+</mapper>

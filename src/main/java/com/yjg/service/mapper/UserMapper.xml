@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjg.service.mapper.UserMapper"> 
+
+	<select id="findUserByName" parameterType="com.yjg.api.model.User" resultType="com.yjg.api.model.User">
+		select 
+			u.userId as userId,
+			u.userName as userName,
+			u.gender as gender,
+			u.password as password,
+			u.phoneNum as phoneNum,
+			u.address as address,
+			u.addressD as addressD,
+			u.email as email,
+			u.ifAdmin as ifAdmin,
+			u.createDate as createDate,
+			u.createPer as createPer,
+			u.modeDate as modeDate
+		from
+			user u
+		where
+			u.userName=#{userName}
+	</select>
+	
+	<insert id="inserUser" useGeneratedKeys="true" keyProperty="userId" parameterType="com.yjg.api.model.User">
+		insert into 
+			user(userName,gender,password,phoneNum,address,addressD,email,ifAdmin,createDate,modeDate,createPer)
+		 	values(#{userName},#{gender},#{password},#{phoneNum},#{address},#{addressD},#{email},#{ifAdmin},#{createDate},#{modeDate},#{createPer})
+	</insert>
+	<update id="upDateUser" parameterType="com.yjg.api.model.User">
+		 update user u 
+        <set>
+  			<if test="gender!=null"> u.gender=#{gender},</if>
+  			<if test="password!=null"> u.password=#{password},</if>
+  			<if test="phoneNum!=null"> u.phoneNum=#{phoneNum},</if>
+  			<if test="address!=null"> u.address=#{address},</if>
+  			<if test="addressD!=null"> u.addressD=#{addressD},</if>
+  			<if test="email!=null"> u.email=#{email},</if>
+  			<if test="modeDate!=null"> u.modeDate=#{modeDate},</if>
+  			<if test="ifAdmin!=null"> u.ifAdmin=#{ifAdmin},</if>
+  			<if test="createPer!=null"> u.createPer=#{createPer},</if>
+  		</set>
+  			where u.userId=#{userId} 
+	</update>
+	<select id="findUser" parameterType="com.yjg.api.model.User" resultType="com.yjg.api.model.User">
+		select 
+			u.userId as userId,
+			u.userName as userName,
+			u.gender as gender,
+			u.password as password,
+			u.phoneNum as phoneNum,
+			u.address as address,
+			u.addressD as addressD,
+			u.email as email,
+			u.ifAdmin as ifAdmin,
+			u.createDate as createDate,
+			u.createPer as createPer,
+			u.modeDate as modeDate
+		from
+			user u
+		where
+			u.userName=#{userName} and u.password=#{password}
+	</select>
+	<select id="selectAllUser" parameterType="com.yjg.api.model.User" resultType="com.yjg.api.model.User">
+		select 
+			u.userId as userId,
+			u.userName as userName,
+			u.gender as gender,
+			u.password as password,
+			u.phoneNum as phoneNum,
+			u.address as address,
+			u.addressD as addressD,
+			u.email as email,
+			u.ifAdmin as ifAdmin,
+			u.createDate as createDate,
+			u.createPer as createPer,
+			u.modeDate as modeDate
+		from
+			user u
+		<where>
+			<if test="ifAdmin!=null">and u.ifAdmin=#{ifAdmin}</if>
+		</where>
+	</select>
+	<select id="selectUserList" parameterType="map" resultType="com.yjg.api.model.User">
+		select 
+			u.userId as userId,
+			u.userName as userName,
+			u.gender as gender,
+			u.password as password,
+			u.phoneNum as phoneNum,
+			u.address as address,
+			u.addressD as addressD,
+			u.email as email,
+			u.ifAdmin as ifAdmin,
+			u.createDate as createDate,
+			u.createPer as createPer,
+			u.modeDate as modeDate
+		from
+			user u
+  	   	where
+  	   		u.ifAdmin='N'
+  		limit
+  			#{startPage},#{pageSize}
+	</select>
+	<select id="selectUserListcount" parameterType="map" resultType="int">
+		select
+			count(*)
+		from
+			user u
+  	 	where
+  	   		u.ifAdmin='N'	 
+	</select>
+</mapper>

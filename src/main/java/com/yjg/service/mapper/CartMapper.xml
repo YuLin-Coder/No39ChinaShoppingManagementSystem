@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjg.service.mapper.CartMapper"> 
+	<resultMap type="com.yjg.api.model.Cart" id="resultMap1">	
+	  <id column="cartId1" property="cartId" /> 
+	  <result column="userId1" property="userId" /> 
+	  <result column="goodsNum1" property="goodsNum" /> 
+	  <result column="createDate1" property="createDate" /> 
+	  <result column="modeDate1" property="modeDate" /> 
+	  <result column="goodsId1" property="goodsId" /> 
+	  <association property="goods" resultMap="resultMap2" /> 
+	</resultMap>
+	<resultMap type="com.yjg.api.model.Goods" id="resultMap2">	
+	  <id column="goodsId" property="goodsId" /> 
+	  <result column="typeDid" property="typeDid" /> 
+	  <result column="goodsName" property="goodsName" /> 
+	  <result column="goodsPrice" property="goodsPrice" /> 
+	  <result column="goodsPriceZ" property="goodsPriceZ" /> 
+	  <result column="goodsFrom" property="goodsFrom" />
+	  <result column="goodsDesc" property="goodsDesc" />  
+	  <result column="goodsNum" property="goodsNum" /> 
+	  <result column="goodsUrl" property="goodsUrl" /> 
+	  <result column="goodsUrl2" property="goodsUrl2" /> 
+	  <result column="goodsUrl3" property="goodsUrl3" /> 
+	  <result column="goodsUrl4" property="goodsUrl4" />
+	  <result column="createDate" property="createDate" /> 
+	  <result column="createId" property="createId" /> 
+	  <result column="modeDate" property="modeDate" /> 
+	  <result column="modeId" property="modeId" /> 
+	  <result column="ifZK" property="ifZK" /> 
+	</resultMap>
+	<select id="findOneCart" parameterType="com.yjg.api.model.Cart" resultMap="resultMap1">
+		select
+			c.cartId as cartId1,
+			c.userId as userId1,
+			c.goodsNum as goodsNum1,
+			c.createDate as createDate1,
+			c.modeDate as modeDate1,
+			c.goodsId as goodsId1,
+			g.goodsId as goodsId,
+			g.typeDid as typeDid,
+			g.goodsName as goodsName,
+			g.goodsPrice as goodsPrice,
+			g.goodsPriceZ as goodsPriceZ,
+			g.goodsFrom as goodsFrom,
+			g.goodsDesc as goodsDesc,
+			g.goodsNum as goodsNum,
+			g.goodsUrl as goodsUrl,
+			g.goodsUrl2 as goodsUrl2,
+			g.goodsUrl3 as goodsUrl3,
+			g.goodsUrl4 as goodsUrl4,
+			g.createDate as createDate,
+			g.createId as createId,
+			g.modeDate as modeDate,
+			g.modeId as modeId,
+			g.ifZK as ifZK
+		from
+			cart c,goods g
+		where
+			c.goodsId=g.goodsId and c.cartId=#{cartId}
+	</select>
+	
+	<insert id="inserCart" useGeneratedKeys="true" keyProperty="cartId" parameterType="com.yjg.api.model.Cart">
+		insert into 
+			cart(userId,goodsNum,createDate,modeDate,goodsId)
+		 	values(#{userId},#{goodsNum},#{createDate},#{modeDate},#{goodsId})
+	</insert>
+	<update id="updateCart" parameterType="com.yjg.api.model.Cart">
+		 update cart c 
+        <set>
+  			<if test="goodsNum!=null"> c.goodsNum=#{goodsNum},</if>
+  			<if test="modeDate!=null"> c.modeDate=#{modeDate},</if>
+  		</set>
+  			where c.cartId=#{cartId} 
+	</update>
+	<delete id="removeCart" parameterType="com.yjg.api.model.Cart">
+		 delete from cart where cartId=#{cartId} 
+	</delete>
+	<delete id="removeAllCart" parameterType="com.yjg.api.model.Cart">
+		 delete  from cart where  userId=#{userId}
+	</delete>
+	<select id="findAllCart" parameterType="com.yjg.api.model.Cart" resultMap="resultMap1">
+			select
+			c.cartId as cartId1,
+			c.userId as userId1,
+			c.goodsNum as goodsNum1,
+			c.createDate as createDate1,
+			c.modeDate as modeDate1,
+			c.goodsId as goodsId1,
+			g.goodsId as goodsId,
+			g.typeDid as typeDid,
+			g.goodsName as goodsName,
+			g.goodsPrice as goodsPrice,
+			g.goodsPriceZ as goodsPriceZ,
+			g.goodsFrom as goodsFrom,
+			g.goodsDesc as goodsDesc,
+			g.goodsNum as goodsNum,
+			g.goodsUrl as goodsUrl,
+			g.goodsUrl2 as goodsUrl2,
+			g.goodsUrl3 as goodsUrl3,
+			g.goodsUrl4 as goodsUrl4,
+			g.createDate as createDate,
+			g.createId as createId,
+			g.modeDate as modeDate,
+			g.modeId as modeId,
+			g.ifZK as ifZK
+		from
+			cart c,goods g
+		where
+			c.goodsId=g.goodsId and c.userId=#{userId}
+			<if test="goodsId!=null">and c.goodsId=#{goodsId}</if>
+	</select>
+</mapper>

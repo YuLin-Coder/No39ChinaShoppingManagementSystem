@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjg.service.mapper.GoodsMessageMapper"> 
+
+
+	
+	<insert id="inserGoodsMessage" useGeneratedKeys="true" keyProperty="goodsMid" parameterType="com.yjg.api.model.GoodsMessage">
+		insert into 
+			goodsMessage(userId,userName,goodsId,manyd,goodsMDetail,createDate)
+		 	values(#{userId},#{userName},#{goodsId},#{manyd},#{goodsMDetail},#{createDate})
+	</insert>
+	<delete id="deletGoodsMessage" parameterType="com.yjg.api.model.GoodsMessage">
+		 delete from goodsMessage where goodsId=#{goodsId} 
+	</delete>
+	<select id="selectAllGoodsMessage" parameterType="com.yjg.api.model.GoodsMessage" resultType="com.yjg.api.model.GoodsMessage">
+		select 
+			m.goodsMid as goodsMid,
+			m.userId as userId,
+			m.userName as userName,
+			m.goodsId as goodsId,
+			m.manyd as manyd,
+			m.goodsMDetail as goodsMDetail,
+			m.createDate as createDate
+		from
+			goodsMessage m	
+		where
+			m.goodsId=#{goodsId}	
+	</select>
+</mapper>
